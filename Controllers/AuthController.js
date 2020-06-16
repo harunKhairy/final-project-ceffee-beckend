@@ -1,4 +1,4 @@
-const {mysql}=require('./../connection')
+const {mysql}=require('./../Connections')
 const fs=require('fs') 
 const hexpass=require('./../Helpers/crypto')
 const transporter=require('./../Helpers/mailer')
