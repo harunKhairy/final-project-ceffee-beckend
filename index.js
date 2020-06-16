@@ -11,6 +11,10 @@ app.use(BodyParser.urlencoded({extended:false}))
 app.use(BodyParser.json())
 app.use(express.static('public'))
 
+const {AuthRouter}=require('./Routers')
+
+app.use('/Auth', AuthRouter)
+
 
 app.get('/', (req, res) => {
     return res.status(200).send('<h1>API FINALPROJECT</h1>')
