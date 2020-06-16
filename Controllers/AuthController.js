@@ -2,6 +2,7 @@ const {mysql}=require('./../connection')
 const fs=require('fs') 
 const hexpass=require('./../Helpers/crypto')
 const transporter=require('./../Helpers/mailer')
+const db = require('../Connections/mysqldb')
 
 ///============TEST==========\\\
 
@@ -63,5 +64,16 @@ module.exports={
                 }
             })
         })
-    },
+    }, 
+    login:(req,res)=>{
+        const {username,password}=req.query
+        var sql=`SELECT * FROM user WHERE username='${username} and password='${hexpass(password)}'` 
+        db.query(sql,(err,result)=>{
+            if(err){
+                return res.status(500).send(err)
+            }else{
+                return res.status(200).send({status:false})
+            }
+        })
+     },
 }
