@@ -11,7 +11,7 @@ module.exports={
     register: (req,res)=>{
         var {username, password, email}=req.body
 
-        var sql=`SELECT * FROM users WHERE username='${username}'`
+        var sql=`SELECT * FROM user WHERE username='${username}'`
         mysql.query(sql, (err, result)=>{
             if(err) return res.status(500).send({err})
             if(result.length>0) return res.status(200).send({status:'error', message: 'Akun sudah terdaftar'})
@@ -21,10 +21,11 @@ module.exports={
                     username,
                     email,
                     password:hashpassword,
-                    status:'unverified',
-                    roleid:'2'
+                    isverified:'0',
+                    role:'2',
+                    lastlogin:new Date()
                 }
-                sql=`INSERT INTO users SET ?`
+                sql=`INSERT INTO user SET ?`
                 mysql.query(sql, datauser, (err1, res1)=>{
                     if(err1) return res.status(500).send({err1})
                     var LinkVerifikasi=`http://localhost:3000/verified?username=${username}&password=${hashpassword}`
@@ -45,13 +46,13 @@ module.exports={
     },
     verifikasimail: (req,res)=>{
         var {username, password}=req.body
-        var sql=`SELECT * FROM users WHERE username='${username}'`
+        var sql=`SELECT * FROM user WHERE username='${username}'`
         mysql.query(sql, (err, results)=>{
             if(err) return res.status(500).send({status:'error',err})
             if(results.length===0){
                 return res.status(500).send({status:'error', err1:'User tidak ditemukan'})
             }
-            sql=`UPDATE users SET status='verified' WHERE username='${username}' and password='${password}'`
+            sql=`UPDATE user SET status='verified' WHERE username='${username}' and password='${password}'`
             mysql.query(sql, (err, results2)=>{
                 if(err){
                     return res.status(500).send({status:'error', err})
