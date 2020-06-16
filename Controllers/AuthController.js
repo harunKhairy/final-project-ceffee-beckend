@@ -3,6 +3,8 @@ const fs=require('fs')
 const hexpass=require('./../Helpers/crypto')
 const transporter=require('./../Helpers/mailer')
 
+///============TEST==========\\\
+
 module.exports={
     crypto: (req,res)=>{
         const hashpassword = hexpass(req.query.password)
