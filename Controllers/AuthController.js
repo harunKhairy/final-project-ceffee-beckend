@@ -1,8 +1,7 @@
-const {mysql}=require('./../connection')
+const {db}=require('./../Connections')
 const fs=require('fs') 
 const hexpass=require('./../Helpers/crypto')
 const transporter=require('./../Helpers/mailer')
-const db = require('../Connections/mysqldb')
 
 ///============TEST==========\\\
 //  test dari joni
@@ -16,7 +15,7 @@ module.exports={
         var {username, password, email}=req.body
 
         var sql=`SELECT * FROM user WHERE username='${username}'`
-        mysql.query(sql, (err, result)=>{
+        db.query(sql, (err, result)=>{
             if(err) return res.status(500).send({err})
             if(result.length>0) return res.status(200).send({status:'error', message: 'Akun sudah terdaftar'})
             else{
@@ -30,7 +29,7 @@ module.exports={
                     lastlogin:new Date()
                 }
                 sql=`INSERT INTO user SET ?`
-                mysql.query(sql, datauser, (err1, res1)=>{
+                db.query(sql, datauser, (err1, res1)=>{
                     if(err1) return res.status(500).send({err1})
                     var LinkVerifikasi=`http://localhost:3000/verified?username=${username}&password=${hashpassword}`
                     var mailoptions={
@@ -51,13 +50,13 @@ module.exports={
     verifikasimail: (req,res)=>{
         var {username, password}=req.body
         var sql=`SELECT * FROM user WHERE username='${username}'`
-        mysql.query(sql, (err, results)=>{
+        db.query(sql, (err, results)=>{
             if(err) return res.status(500).send({status:'error',err})
             if(results.length===0){
                 return res.status(500).send({status:'error', err1:'User tidak ditemukan'})
             }
             sql=`UPDATE user SET status='verified' WHERE username='${username}' and password='${password}'`
-            mysql.query(sql, (err, results2)=>{
+            db.query(sql, (err, results2)=>{
                 if(err){
                     return res.status(500).send({status:'error', err})
                 }else{
