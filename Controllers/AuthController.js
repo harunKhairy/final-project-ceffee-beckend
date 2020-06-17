@@ -2,6 +2,7 @@ const {db}=require('./../Connections')
 const fs=require('fs') 
 const hexpass=require('./../Helpers/crypto')
 const transporter=require('./../Helpers/mailer')
+const {createJWTToken}=require('./../Helpers/jwt')
 
 ///============TEST==========\\\
 //  test dari joni
@@ -55,25 +56,14 @@ module.exports={
             if(results.length===0){
                 return res.status(500).send({status:'error', err1:'User tidak ditemukan'})
             }
-            sql=`UPDATE user SET isverified='1' WHERE username='${username}' and password='${password}'`
+            sql=`UPDATE user SET isverified=1 WHERE username='${username}' and password='${password}'`
             db.query(sql, (err, results2)=>{
                 if(err){
                     return res.status(500).send({status:'error', err})
                 }else{
-                    return res.status(200).send({username:results[0].username, isverified:'1'})
+                    return res.status(200).send({username:results[0].username, isverified:1})
                 }
             })
         })
     }, 
-    login:(req,res)=>{
-        const {username,password}=req.query
-        var sql=`SELECT * FROM user WHERE username='${username} and password='${hexpass(password)}'` 
-        db.query(sql,(err,result)=>{
-            if(err){
-                return res.status(500).send(err)
-            }else{
-                return res.status(200).send({status:false})
-            }
-        })
-     },
 }
