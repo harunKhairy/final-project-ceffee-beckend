@@ -41,7 +41,7 @@ module.exports={
                     }
                     transporter.sendMail(mailoptions, (err2, res2)=>{
                         if(err2) return res.status(500).send({err2})
-                        return res.status(200).send({username, email, isverified:'unverified'})
+                        return res.status(200).send({username, email, isverified:'0'})
                     })
                 })
             }
