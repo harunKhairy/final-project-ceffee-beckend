@@ -14,7 +14,7 @@ app.use(express.static('public'))
 const {AuthRouter,ProductRouter}=require('./Routers')
 
 app.use('/auth', AuthRouter)
-app.use('/products',ProductRouter)
+app.use('/product',ProductRouter)
 
 
 app.get('/', (req, res) => {
