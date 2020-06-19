@@ -5,6 +5,7 @@ const {auth}=require('./../Helpers/Auth')
 const router=express.Router()
 
 router.post('/addprod',ProductController.addproduct)
+router.get('/allproduct',ProductController.getproduct)
 
 
 
