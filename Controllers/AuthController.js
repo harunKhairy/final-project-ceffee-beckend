@@ -1,6 +1,6 @@
 const {db}=require('./../Connections')
 const fs=require('fs') 
-const hexpass=require('./../Helpers/crypto')
+const encrypt=require('./../Helpers/crypto')
 const transporter=require('./../Helpers/mailer')
 const {createJWTToken}=require('./../Helpers/jwt')
 
@@ -17,7 +17,7 @@ module.exports={
             sql=`insert into user set ?`
             var data={
                 username:username,
-                password:hexpass(password),
+                password:encrypt(password),
                 email:email,
                 lastlogin: new Date()
             }
@@ -26,11 +26,11 @@ module.exports={
                 const token=createJWTToken({id:result1.insertId,username:username})
                 var LinkVerifikasi=`http://localhost:3000/verified?token=${token}`
                 var mailoptions={
-                        from:'KOPIKO <fauuzi3@gmail.com>',
-                        to:email,
-                        subject:'Verifikasi Email',
-                        html:`Klik Link untuk verifikasi : 
-                        <a href=${LinkVerifikasi} > Join Kopi </a>`
+                    from:'KOPIKO <fauuzi3@gmail.com>',
+                    to:email,
+                    subject:'verifikasi email',
+                    html:`tolong klik link ini untuk verifikasi :
+                    <a href=${LinkVerifikasi}>MInimales verified</a>`
                 }
                 transporter.sendMail(mailoptions,(err,result2)=>{
                     if (err) return res.status(500).send(err)
@@ -64,12 +64,12 @@ module.exports={
         const token=createJWTToken({id:userid,username:username})
         var LinkVerifikasi=`http://localhost:3000/verified?token=${token}`
         var mailoptions={
-                from:'KOPIKO <fauuzi3@gmail.com>',
-                to:email,
-                subject:'Verifikasi Email',
-                html:`Klik Link untuk verifikasi : 
-                <a href=${LinkVerifikasi} > Join Kopi </a>`
-            }
+            from:'KOPIKO <fauuzi3@gmail.com>',
+            to:email,
+            subject:'verifikasi email',
+            html:`tolong klik link ini untuk verifikasi :
+            <a href=${LinkVerifikasi}>MInimales verified</a>`
+        }
         transporter.sendMail(mailoptions,(err,result2)=>{
             if (err) return res.status(500).send(err)
             return res.status(200).send({pesan:true})
@@ -77,7 +77,7 @@ module.exports={
     },
     login:(req,res)=>{
         const {username,password}=req.query
-        var sql=`select * from user where username='${username}' and password='${hexpass(password)}'`
+        var sql=`select * from user where username='${username}' and password='${encrypt(password)}'`
         db.query(sql,(err,result)=>{
             if(err) return res.status(500).send(err)
             if(result.length){
@@ -110,9 +110,10 @@ module.exports={
             })
         })
     },
+    
     encryptpass(req,res){
         const {pass}=req.query
-        const encryptpass=hexpass(pass)
+        const encryptpass=encrypt(pass)
         res.send(encryptpass)
-    },
+    }
 }
