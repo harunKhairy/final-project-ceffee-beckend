@@ -40,10 +40,10 @@ module.exports={
                         return res.status(200).send({...result3[0],token,status:true})
                     })
                 })
-
             })
         })
     },
+
     verifieduser:(req,res)=>{
         const {id}=req.user
         var obj={
@@ -59,6 +59,7 @@ module.exports={
             })
         })
     },
+
     sendemailverified:(req,res)=>{
         const {userid,username,email}=req.body
         const token=createJWTToken({id:userid,username:username})
@@ -75,13 +76,14 @@ module.exports={
             return res.status(200).send({pesan:true})
         })
     },
+
     login:(req,res)=>{
         const {username,password}=req.query
         var sql=`select * from user where username='${username}' and password='${encrypt(password)}'`
         db.query(sql,(err,result)=>{
             if(err) return res.status(500).send(err)
             if(result.length){
-                sql=`select count(*) as jumlahcart from transactions t 
+                sql=`select count(*) as jumlahcart from transaction t 
                 join transactiondetails td on t.id=td.transactionid 
                 where t.userid=${result[0].id} and t.status='oncart'`
                 db.query(sql,(err,result1)=>{
@@ -94,6 +96,7 @@ module.exports={
             }
         })
     },
+
     keeplogin:(req,res)=>{
         var sql=`select * from user where id=${req.user.id}`
         db.query(sql,(err,result)=>{
