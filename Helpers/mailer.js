@@ -4,7 +4,7 @@ var transporter=nodemailer.createTransport({
     service:'gmail',
     auth:{
         user:'fauuzi3@gmail.com',
-        pass:'peindndtqxenssxjp'
+        pass:'eindndtqxenssxjp'
     },
     tls:{
         rejectUnauthorized:false
