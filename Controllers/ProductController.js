@@ -30,7 +30,7 @@ module.exports={
                         error: error.message 
                     });
                 } ;
-                console.log('add foto berhasil')
+                // console.log('add foto berhasil')
                 const { image } = req.files
                 const imagePath = image ? path + '/' + image[0].filename : null
                 const data = JSON.parse(req.body.data)
