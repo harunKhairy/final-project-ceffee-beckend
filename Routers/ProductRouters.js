@@ -15,3 +15,5 @@ router.put('/editprod/:id', auth, ProductController.editProduct)
 
 
 module.exports=router
+
+opo
