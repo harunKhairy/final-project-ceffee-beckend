@@ -136,7 +136,7 @@ module.exports={
                                 }
                             }
                             sql = `select p.*,c.id as idcat,c.name as catname
-                                from products p join category c on p.kategoriid=c.id 
+                                from products p join category c on p.categoryid=c.id 
                                 where p.isdeleted=0`
                             db.query(sql, (error, result2) => {
                                 if (error) res.status(500).send(error)
