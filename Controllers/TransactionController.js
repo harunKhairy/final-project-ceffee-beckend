@@ -16,13 +16,13 @@ module.exports={
     sendToCart:(req,res)=>{
         const {userid, productid, qty, username}=req.body
         var sql=`   SELECT * 
-                    FROM transactions 
-                    WHERE userid=${userid} AND status='oncart'`
+                    FROM transaction 
+                    WHERE id=${userid} AND status='oncart'`
         db.query(sql,(err,result)=>{
             if(err) return res.status(500).send({message:'error get data'})
             if(result.length){ //kalo udah punya card
                 sql=`   SELECT * 
-                        FROM transactions t
+                        FROM transaction t
                             JOIN transactiondetails td
                             ON t.id=td.transactionid
                         WHERE t.userid = ${userid} AND t.status='oncart' AND td.productid=${productid} AND td.isdeleted=0`
@@ -39,7 +39,7 @@ module.exports={
                             if(err5) return res.status(500).send({err5,message:'error add qty product yg sama dalam satu cart'})
                             const token=createJWTToken({id:userid,username})
                             sql=`   SELECT * 
-                                    FROM transactions 
+                                    FROM transaction 
                                     WHERE userid=${userid} AND status='oncart'` //get data yg udah ada
                             db.query(sql,(err6,result6)=>{
                                 if(err6) return res.status(500).send({message:'error get data oncart'})
@@ -57,7 +57,7 @@ module.exports={
                             if(err7) return res.status(500).send({err7,message:'error create new transactiondetails'})
                             const token=createJWTToken({id:userid,username})
                             sql=`   SELECT * 
-                                    FROM transactions 
+                                    FROM transaction
                                     WHERE userid=${userid} AND status='oncart'` //get data yg udah ada
                             db.query(sql,(err8,result8)=>{
                                 if(err8) return res.status(500).send({err8,message:'error get data oncart'})
@@ -72,7 +72,7 @@ module.exports={
                     method:'credit card',
                     status:'oncart',
                 }
-                sql=`INSERT INTO transactions SET ?` //kalo user belum punya cart, maka buat dulu
+                sql=`INSERT INTO transaction SET ?` //kalo user belum punya cart, maka buat dulu
                 db.query(sql,data,(err1,result1)=>{
                     if(err1) return res.status(500).send({message:'error create new transaction'})
                     datadetails={
@@ -85,7 +85,7 @@ module.exports={
                         if(err2) return res.status(500).send({message:'error create new transactiondetails'})
                         const token=createJWTToken({id:userid,username})
                         sql=`   SELECT * 
-                                FROM transactions 
+                                FROM transaction 
                                 WHERE userid=${userid} AND status='oncart'` //get data yg udah ada
                         db.query(sql,(err3,result3)=>{
                             if(err3) return res.status(500).send({message:'error get data oncart'})
@@ -99,7 +99,7 @@ module.exports={
     getDataCart:(req,res)=>{
         const {id}= req.params
         var sql=`   SELECT p.name,p.image,p.price, p.id AS productid,td.qty,td.id AS transactiondetailsid, t.id AS transactionid
-                    FROM transactions t
+                    FROM transaction t
                         JOIN transactiondetails td
                         ON t.id=td.transactionid
                         JOIN products p
@@ -141,7 +141,7 @@ module.exports={
     getTotalCart:(req,res)=>{
         const {id}=req.params
         var sql= `  SELECT SUM(qty) AS totalqty
-                    FROM transactions t
+                    FROM transaction t
                         JOIN transactiondetails td
                         ON t.id=td.transactionid
                         JOIN products p
@@ -159,7 +159,7 @@ module.exports={
             status:'onpaymentverification',
             creditcard_number:ccnumber
         }
-        var sql=`   UPDATE transactions SET ?  
+        var sql=`   UPDATE transaction SET ?  
                     WHERE id=${transactionid}`
         db.query(sql,data,(err,result)=>{
             if (err) res.status(500).send({err,message:'error checkout'})
@@ -169,7 +169,7 @@ module.exports={
     transactionhistory:(req,res)=>{
         const {userid}=req.params
         var sql= `  SELECT t.id as transactionid, t.userid, t.method, t.status
-                    FROM transactions t
+                    FROM transaction t
                         JOIN transactiondetails td
                         ON t.id=td.transactionid
                     WHERE t.userid = ${userid} AND td.isdeleted=0
@@ -180,7 +180,7 @@ module.exports={
             var arr=[]
             result.forEach(element => {
                 arr.push(queryAsync(`   SELECT td.id AS transactiondetailid, td.transactionid, td.qty, p.name, p.image, p.price
-                                        FROM transactions t
+                                        FROM transaction t
                                             JOIN transactiondetails td
                                             ON t.id=td.transactionid
                                             JOIN products p
@@ -199,7 +199,7 @@ module.exports={
     gettransactiondetail:(req,res)=>{
         const {transactionid}=req.params
         var sql=`    SELECT t.id as transactionid, p.name,p.image,p.price, p.id AS productid,td.qty,td.id AS transactiondetailsid, t.status, u.username, u.address, u.phonenumber, t.method, t.creditcard_number
-                        FROM transactions t
+                        FROM transaction t
                             JOIN transactiondetails td
                             ON t.id=td.transactionid
                             JOIN products p
@@ -212,9 +212,9 @@ module.exports={
             res.status(200).send(result)
         })
     },
-    getalltransactions:(req,res)=>{
+    getalltransaction:(req,res)=>{
         var sql= `  SELECT t.id as transactionid, t.userid, t.method, t.status, u.username
-                    FROM transactions t
+                    FROM transaction t
                         JOIN transactiondetails td
                         ON t.id=td.transactionid
                         JOIN users u
@@ -227,7 +227,7 @@ module.exports={
             var arr=[]
             result.forEach(element => {
                 arr.push(queryAsync(`   SELECT td.id AS transactiondetailid, td.transactionid, td.qty, p.name, p.image, p.price
-                                        FROM transactions t
+                                        FROM transaction t
                                             JOIN transactiondetails td
                                             ON t.id=td.transactionid
                                             JOIN products p
@@ -245,7 +245,7 @@ module.exports={
     },
     verifypayment:(req,res)=>{
         const {transactionid}=req.params
-        var sql=`   UPDATE transactions SET status='onprocess'  
+        var sql=`   UPDATE transaction SET status='onprocess'  
                     WHERE id=${transactionid}`
         db.query(sql,(err,result)=>{
             if (err) res.status(500).send({err,message:'error verifypayment'})
@@ -254,7 +254,7 @@ module.exports={
     },
     processorder:(req,res)=>{
         const {transactionid}=req.params
-        var sql=`   UPDATE transactions SET status='completed'  
+        var sql=`   UPDATE transaction SET status='completed'  
                     WHERE id=${transactionid}`
         db.query(sql,(err,result)=>{
             if (err) res.status(500).send({err,message:'error processorder'})
