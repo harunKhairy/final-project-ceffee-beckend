@@ -81,7 +81,7 @@ module.exports={
         db.query(sql,(err,result)=>{
             if(err) return res.status(500).send(err)
             if(result.length){
-                sql=`select count(*) as jumlahcart from transactions t 
+                sql=`select count(*) as jumlahcart from transaction t 
                 join transactiondetails td on t.id=td.transactionid 
                 where t.userid=${result[0].id} and t.status='oncart'`
                 db.query(sql,(err,result1)=>{
@@ -100,7 +100,7 @@ module.exports={
             if(err){
                 return res.status(500).send(err)
             }
-            sql=`select count(*) as jumlahcart from transactions t 
+            sql=`select count(*) as jumlahcart from transaction t 
             join transactiondetails td on t.id=td.transactionid 
             where t.userid=${result[0].id} and t.status='oncart'`
             db.query(sql,(err,result1)=>{
