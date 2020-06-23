@@ -6,7 +6,8 @@ const fs=require('fs')
 
 module.exports={
     getProduct: (req, res) => {
-        let sql = `select p.*,c.id as idcat, c.name as catname
+        let sql = 
+            `select p.*,c.id as idcat, c.name as catname
             from products p join category c on p.categoryid=c.id
             where p.isdeleted=0`
         db.query (sql, (error, product) => {
@@ -135,7 +136,7 @@ module.exports={
                                 }
                             }
                             sql = `select p.*,c.id as idcat,c.name as catname
-                                from products p join category c on p.categoryid=c.id 
+                                from products p join category c on p.kategoriid=c.id 
                                 where p.isdeleted=0`
                             db.query(sql, (error, result2) => {
                                 if (error) res.status(500).send(error)
@@ -148,5 +149,41 @@ module.exports={
                 }
             }
         })
-    }
+    },
+    getDetailKelas:(req, res)=>{
+        var id=req.params.selectedId
+        var sql=`SELECT p.id, p.judul, p.idkategori, p.deskripsi, p.bab, p.materi FROM product p join category c on p.idkategori=c.idkat where p.id=${id}`
+        mysql.query(sql, (err, res1)=>{
+            if(err){
+                return res.status(500).send(err)
+            }
+            return res.status(200).send(res1)
+        })
+    },
+    getPageKelas:(req, res)=>{
+        const sqlCount=`SELECT COUNT(*) AS count FROM product` 
+        let dataCount
+        mysql.query(sqlCount, (err, result)=>{
+            if(err) res.status(500).send(err)
+            dataCount=result[0].count 
+
+            const page=parseInt(req.params.page)||1 
+            const pageSize=9
+            const pager=paginate(dataCount, page, pageSize)
+
+            let offset 
+            if(page === 1){
+                offset=0
+            }else{
+                offset=pageSize * (page - 1)
+            }
+
+            sql=`SELECT * FROM product p join category c on p.idkategori=c.idkat LIMIT ? OFFSET ?`
+            mysql.query(sql, [pageSize, offset], (err1, result2)=>{
+                if(err) res.status(500).send(err1)
+                const pageOfData=result2
+                return res.status(200).send({pageOfData, pager})
+            })
+        })
+    },
 }
