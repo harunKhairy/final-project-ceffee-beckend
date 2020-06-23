@@ -13,7 +13,11 @@ app.use(bearertoken())
 app.use(BodyParser.json())
 app.use(express.static('public'))
 
-const {AuthRouter,ProductRouter, TransactionRouter}=require('./Routers')
+const {
+    AuthRouter,
+    ProductRouter, 
+    TransactionRouter
+} = require('./Routers')
 
 app.use('/users', AuthRouter)
 app.use('/product',ProductRouter)

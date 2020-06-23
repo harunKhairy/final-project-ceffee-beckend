@@ -1,4 +1,4 @@
-const {db} =require('./../connection')
+const {db} =require('../Connections')
 const transporter=require('./../Helpers/mailer')
 const {createJWTToken}=require('./../Helpers/jwt')
 const fs = require('fs')
