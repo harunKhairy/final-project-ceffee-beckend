@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.20, for Win64 (x86_64)
 --
 -- Host: localhost    Database: ecommta
 -- ------------------------------------------------------
--- Server version	8.0.19
+-- Server version	8.0.20
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -25,9 +25,9 @@ DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
-  `isdelete` varchar(45) NOT NULL DEFAULT '0',
-  `createat` varchar(45) NOT NULL DEFAULT 'CURRENT_TIMESTAMP',
-  `updateat` varchar(45) NOT NULL DEFAULT 'CURRENT_TIMESTAMP',
+  `isdelete` int NOT NULL DEFAULT '0',
+  `createat` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updateat` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -92,36 +92,8 @@ CREATE TABLE `roles` (
 
 LOCK TABLES `roles` WRITE;
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
-INSERT INTO `roles` VALUES (1,'admin'),(2,'user');
+INSERT INTO `roles` VALUES (1,'user'),(2,'admin');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `transaction`
---
-
-DROP TABLE IF EXISTS `transaction`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `transaction` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `userid` int NOT NULL,
-  `metode` int DEFAULT NULL,
-  `status` varchar(45) NOT NULL,
-  `isdelete` int NOT NULL DEFAULT '0',
-  `createat` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updateat` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `transaction`
---
-
-LOCK TABLES `transaction` WRITE;
-/*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
-/*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -132,7 +104,7 @@ DROP TABLE IF EXISTS `transactiondetails`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `transactiondetails` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `transactionid` int NOT NULL,
   `productid` int NOT NULL,
   `qty` int NOT NULL,
@@ -150,6 +122,34 @@ CREATE TABLE `transactiondetails` (
 LOCK TABLES `transactiondetails` WRITE;
 /*!40000 ALTER TABLE `transactiondetails` DISABLE KEYS */;
 /*!40000 ALTER TABLE `transactiondetails` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `transactions`
+--
+
+DROP TABLE IF EXISTS `transactions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `transactions` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `userid` int NOT NULL,
+  `metode` int DEFAULT NULL,
+  `status` varchar(45) NOT NULL,
+  `isdelete` int NOT NULL DEFAULT '0',
+  `createat` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updateat` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `transactions`
+--
+
+LOCK TABLES `transactions` WRITE;
+/*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -171,7 +171,7 @@ CREATE TABLE `user` (
   `updateat` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `lastlogin` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -180,7 +180,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'naruto','akubodoh@gmail.com','1970640134ca94edc36e7829b9c681e9598d8f026354abc1ece7f691f786d869',2,0,0,'2020-06-16 14:46:13','2020-06-16 14:46:13','2020-06-16 14:46:13'),(2,'fauzi Bowo','akubodoh@gmail.com','1970640134ca94edc36e7829b9c681e9598d8f026354abc1ece7f691f786d869',2,0,0,'2020-06-16 14:48:05','2020-06-16 14:48:05','2020-06-16 14:48:06'),(3,'asep','akubodoh@gmail.com','c899a6c6fa4421d8060f26f5d2e4845ba7c35cfae29c31a5fff9c93e027001da',2,0,0,'2020-06-16 16:15:15','2020-06-16 16:15:15','2020-06-16 16:15:15'),(4,'asepti','pencintahewanyangbukantumbuhan@gmail.com','0d5c42f85b55f9562ad7feceeb6a7ce3bf2c7bae752ac3aa33133331c2d699ec',2,0,0,'2020-06-16 16:22:09','2020-06-16 16:22:09','2020-06-16 16:22:10'),(5,'aaa','asd@asd.com','b7c71c628b4c3e904c043eb9d260d887f209ba865ab890496a17d66641d3f27b',2,0,0,'2020-06-17 13:20:03','2020-06-17 13:20:03','2020-06-17 13:20:04'),(6,'aaad','asd@asd.com','b7c71c628b4c3e904c043eb9d260d887f209ba865ab890496a17d66641d3f27b',2,0,0,'2020-06-17 13:24:30','2020-06-17 13:24:30','2020-06-17 13:24:30'),(7,'aaade','asd@asd.com','b7c71c628b4c3e904c043eb9d260d887f209ba865ab890496a17d66641d3f27b',2,0,0,'2020-06-17 13:43:19','2020-06-17 13:43:19','2020-06-17 13:43:19'),(8,'aaadef','asd@asd.com','b7c71c628b4c3e904c043eb9d260d887f209ba865ab890496a17d66641d3f27b',2,0,0,'2020-06-17 13:43:35','2020-06-17 13:43:35','2020-06-17 13:43:35'),(9,'aseptiblack','asd@asd.com','e1bcf5fa3615c32b0eb961f4daa964b377a8fe6904b7ad3485bafa615804e9d3',2,0,0,'2020-06-17 13:43:55','2020-06-17 13:43:55','2020-06-17 13:43:55'),(10,'aseptiblack2','asd@asd.com','e1bcf5fa3615c32b0eb961f4daa964b377a8fe6904b7ad3485bafa615804e9d3',2,0,0,'2020-06-17 13:44:43','2020-06-17 13:44:43','2020-06-17 13:44:44'),(13,'dobleh','aldoretardo03@gmail.com','cb8ff548fb0076a5222acf430ac31250d0e46b519669eb0dcbef25a11ef53d5c',2,0,0,'2020-06-22 13:58:56','2020-06-22 13:58:56','2020-06-22 13:58:56'),(14,'asdasd','aldoretardo03@gmail.com','cb8ff548fb0076a5222acf430ac31250d0e46b519669eb0dcbef25a11ef53d5c',2,0,0,'2020-06-22 14:09:13','2020-06-22 14:09:13','2020-06-22 14:09:13'),(15,'budi','aldoretardo03@gmail.com','2fb98ae2cf7d42c26ff1b3c24a80140e7d1ce05932454d3302216e8f7008f016',2,0,1,'2020-06-22 14:11:50','2020-06-22 14:11:50','2020-06-22 14:11:50');
+INSERT INTO `user` VALUES (1,'dobleh','dobleh@gmail.com','cb8ff548fb0076a5222acf430ac31250d0e46b519669eb0dcbef25a11ef53d5c',2,0,0,'2020-06-16 16:08:44','2020-06-16 16:08:44','2020-06-16 16:08:45'),(2,'gagu','gagu@gmail.com','38c33bd9b86f545d36e07661ac3db4a3df5e8b6378b905cfd05d72772a345bda',2,0,0,'2020-06-16 16:09:29','2020-06-16 16:09:29','2020-06-16 16:09:29'),(3,'asep','asep@gmail.com','d0b8f0f0e8ea797825f12673d2ad7209a1f1181728f9f73942ca2ec2f7b6917f',2,0,0,'2020-06-16 16:16:46','2020-06-16 16:16:46','2020-06-16 16:16:47'),(4,'sakura','sakura@gmail.com','c557ffcfe8cadf151f367ed70da7d9f94eb9a5c8d6a8d76ffd8dd73764d3576b',2,0,0,'2020-06-16 16:25:07','2020-06-16 16:25:07','2020-06-16 16:25:07'),(5,'fauzi','fauuzi3@gmail.com','81b41d736c6451e55dde2ffdc7341193e02297c28aa0ecfec47d4bdb6843aa05',2,0,0,'2020-06-17 14:10:13','2020-06-17 14:10:13','2020-06-17 14:10:14'),(6,'udin','aldoretardo03@gmail.com','5db5f4d090f9defeadbae2c4bbe20569f88208d2040f1f8d39b674342029e22c',2,0,0,'2020-06-17 14:20:42','2020-06-17 14:20:42','2020-06-17 14:20:42'),(7,'harun','harun.khairy@gmail.com','48026bd903eeccdc5951010af5a65b585bc849131799681e7d7745b7fbb04ede',2,0,0,'2020-06-17 14:23:00','2020-06-17 14:23:00','2020-06-17 14:23:01'),(12,'uji','fauuzi3@gmail.com','cb8ff548fb0076a5222acf430ac31250d0e46b519669eb0dcbef25a11ef53d5c',2,0,0,'2020-06-20 22:32:25','2020-06-20 22:32:25','2020-06-20 22:32:26'),(13,'gon','fauuzi3@gmail.com','cb8ff548fb0076a5222acf430ac31250d0e46b519669eb0dcbef25a11ef53d5c',2,0,0,'2020-06-20 22:52:58','2020-06-20 22:52:58','2020-06-20 22:52:59'),(14,'gonaw','fauuzi3@gmail.com','38c33bd9b86f545d36e07661ac3db4a3df5e8b6378b905cfd05d72772a345bda',2,0,0,'2020-06-20 22:53:56','2020-06-20 22:53:56','2020-06-20 22:53:57'),(15,'kilua','fauuzi3@gmail.com','cb8ff548fb0076a5222acf430ac31250d0e46b519669eb0dcbef25a11ef53d5c',2,0,0,'2020-06-22 13:36:17','2020-06-22 13:36:17','2020-06-22 13:36:18'),(16,'bombom','fauuzi3@gmail.com','cb8ff548fb0076a5222acf430ac31250d0e46b519669eb0dcbef25a11ef53d5c',2,0,1,'2020-06-22 14:00:04','2020-06-22 14:00:04','2020-06-22 14:00:05'),(17,'bimbim','fauuzi3@gmail.com','cb8ff548fb0076a5222acf430ac31250d0e46b519669eb0dcbef25a11ef53d5c',1,0,1,'2020-06-22 14:48:20','2020-06-22 14:48:20','2020-06-22 14:48:21');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -193,4 +193,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-22 15:00:53
+-- Dump completed on 2020-06-24 14:06:03
