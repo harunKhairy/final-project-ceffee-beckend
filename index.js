@@ -17,7 +17,7 @@ const {AuthRouter,ProductRouter, TransactionRouter}=require('./Routers')
 
 app.use('/users', AuthRouter)
 app.use('/product',ProductRouter)
-app.use('/transaction',TransactionRouter)
+app.use('/transactions',TransactionRouter)
 
 
 app.get('/', (req, res) => {
