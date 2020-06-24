@@ -5,6 +5,8 @@ const fs=require('fs')
 
 
 module.exports={
+    
+
     getProduct: (req, res) => {
         let sql = 
             `select p.*,c.id as idcat, c.name as catname
@@ -95,6 +97,20 @@ module.exports={
         })
     },
 
+    detailProduct: (req, res) => {
+        const { id } = req.params
+        let sql = `select * from products where id=${id}`
+        db.query(sql,(err,result)=>{
+            if(err) res.status(500).send(err)
+            if(result.length){
+                res.status(200).send(result[0])
+            }else{
+                res.status(500).send({message:'product not found'})
+            }
+        })
+    }
+    ,
+
     editProduct: (req, res) => {
         const { id } = req.params
         let sql = `select * from products where id=${id}`
@@ -160,6 +176,7 @@ module.exports={
             return res.status(200).send(res1)
         })
     },
+
     getPageKelas:(req, res)=>{
         const sqlCount=`SELECT COUNT(*) AS count FROM product` 
         let dataCount
