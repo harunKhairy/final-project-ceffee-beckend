@@ -1,14 +1,15 @@
-const {db} =require('./../Connections')
-const transporter=require('./../Helpers/mailer')
-const {createJWTToken}=require('./../Helpers/jwt')
-const fs = require('fs')
+const { db } = require("./../Connections");
+const transporter = require("./../Helpers/mailer");
+const { createJWTToken } = require("./../Helpers/jwt");
+const fs = require("fs");
 
-const queryAsync = query => new Promise((resolve, reject) => {
+const queryAsync = (query) =>
+  new Promise((resolve, reject) => {
     db.query(query, (err, result) => {
-      if(err) return reject(err)
-      resolve(result)
-    })
-})
+      if (err) return reject(err);
+      resolve(result);
+    });
+  });
 
 module.exports = {
   sendToCart: (req, res) => {
@@ -27,11 +28,9 @@ module.exports = {
                         WHERE t.userid = ${userid} AND t.status='oncart' AND td.productid=${productid} AND td.isdelete=0`;
         db.query(sql, (err4, result4) => {
           if (err4)
-            return res
-              .status(500)
-              .send({
-                message: "error select data product yg sama dalam satu cart",
-              });
+            return res.status(500).send({
+              message: "error select data product yg sama dalam satu cart",
+            });
           if (result4.length) {
             //kalo di cart ada product yg sama
             var newqty = result4[0].qty + qty;
@@ -42,12 +41,10 @@ module.exports = {
             db.query(sql, (err5, result5) => {
               console.log("sampe sini");
               if (err5)
-                return res
-                  .status(500)
-                  .send({
-                    err5,
-                    message: "error add qty product yg sama dalam satu cart",
-                  });
+                return res.status(500).send({
+                  err5,
+                  message: "error add qty product yg sama dalam satu cart",
+                });
               const token = createJWTToken({ id: userid, username });
               sql = `   SELECT * 
                                     FROM transactions 
@@ -69,12 +66,10 @@ module.exports = {
             sql = ` INSERT INTO transactiondetails SET ?`; // kalo di cart ga ada produk sama, add new product to transaction details
             db.query(sql, datadetails, (err7, result7) => {
               if (err7)
-                return res
-                  .status(500)
-                  .send({
-                    err7,
-                    message: "error create new transactiondetails",
-                  });
+                return res.status(500).send({
+                  err7,
+                  message: "error create new transactiondetails",
+                });
               const token = createJWTToken({ id: userid, username });
               sql = `   SELECT * 
                                     FROM transaction
