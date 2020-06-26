@@ -10,5 +10,5 @@ var transporter=nodemailer.createTransport({
         rejectUnauthorized:false
     }
 })
-
+//asd//
 module.exports=transporter
