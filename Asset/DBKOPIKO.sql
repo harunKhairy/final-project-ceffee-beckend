@@ -29,7 +29,7 @@ CREATE TABLE `category` (
   `createat` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updateat` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,6 +38,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
+INSERT INTO `category` VALUES (1,'Biji Kopi',0,'2020-06-24 15:08:24','2020-06-24 15:08:24'),(2,'Mesin Kopi',0,'2020-06-24 15:08:24','2020-06-24 15:08:24'),(3,'Merchandise',0,'2020-06-24 15:08:24','2020-06-24 15:08:24');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -60,7 +61,7 @@ CREATE TABLE `products` (
   `createat` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updateat` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,6 +70,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
+INSERT INTO `products` VALUES (1,'kopiko','/product/PROD1593069110111.jpg',6,1,20000,'test',0,'2020-06-25 14:11:50','2020-06-25 14:11:50');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -112,7 +114,7 @@ CREATE TABLE `transactiondetails` (
   `createat` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updateat` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -121,6 +123,7 @@ CREATE TABLE `transactiondetails` (
 
 LOCK TABLES `transactiondetails` WRITE;
 /*!40000 ALTER TABLE `transactiondetails` DISABLE KEYS */;
+INSERT INTO `transactiondetails` VALUES (1,1,1,1,0,'2020-06-26 16:11:21','2020-06-26 16:11:21');
 /*!40000 ALTER TABLE `transactiondetails` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -134,13 +137,13 @@ DROP TABLE IF EXISTS `transactions`;
 CREATE TABLE `transactions` (
   `id` int NOT NULL AUTO_INCREMENT,
   `userid` int NOT NULL,
-  `metode` int DEFAULT NULL,
+  `metode` varchar(45) DEFAULT NULL,
   `status` varchar(45) NOT NULL,
   `isdelete` int NOT NULL DEFAULT '0',
   `createat` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updateat` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,6 +152,7 @@ CREATE TABLE `transactions` (
 
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
+INSERT INTO `transactions` VALUES (1,17,'credit card','oncart',0,'2020-06-26 16:11:21','2020-06-26 16:11:21');
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -193,4 +197,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-24 14:06:03
+-- Dump completed on 2020-06-26 16:45:33
