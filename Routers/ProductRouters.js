@@ -10,6 +10,7 @@ router.get('/category', ProductController.getCategory)
 router.get('/getprod', ProductController.getProduct)
 router.delete('/deleteprod/:id', ProductController.deleteProduct)
 router.put('/editprod/:id', auth, ProductController.editProduct)
+router.get('/productdetail/:id', ProductController.detailProduct)
 
 
 

@@ -150,4 +150,17 @@ module.exports={
             }
         })
     },
+    detailProduct: (req, res) => {
+        const { id } = req.params
+        let sql = `select * from products where id=${id}`
+        db.query(sql,(err,result)=>{
+            if(err) res.status(500).send(err)
+            if(result.length){
+                res.status(200).send(result[0])
+            }else{
+                res.status(500).send({message:'product not found'})
+            }
+        })
+    }
+    ,
 }
