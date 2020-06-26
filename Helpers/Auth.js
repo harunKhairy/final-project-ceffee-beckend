@@ -16,7 +16,7 @@ module.exports = {
               error: "User not authorized.",
             });
         }
-        console.log(decoded, "inidecode");
+        // console.log(decoded, "inidecode");
         req.user = decoded;
         next();
       });

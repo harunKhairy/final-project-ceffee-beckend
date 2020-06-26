@@ -72,7 +72,7 @@ module.exports = {
                 });
               const token = createJWTToken({ id: userid, username });
               sql = `   SELECT * 
-                                    FROM transaction
+                                    FROM transactions
                                     WHERE id=${userid} AND status='oncart'`; //get data yg udah ada
               db.query(sql, (err8, result8) => {
                 if (err8)
@@ -87,7 +87,7 @@ module.exports = {
       } else {
         data = {
           userid: userid,
-          method: "credit card",
+          metode: "credit card",
           status: "oncart",
         };
         sql = `INSERT INTO transactions SET ?`; //kalo user belum punya cart, maka buat dulu
@@ -95,7 +95,7 @@ module.exports = {
           if (err1)
             return res
               .status(500)
-              .send({ message: "error create new transaction" });
+              .send({ err1,message: "error create new transaction" });
           datadetails = {
             transactionid: result1.insertId,
             productid,
